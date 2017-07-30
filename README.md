@@ -145,7 +145,7 @@ An interesting conclusion is that the more charsets you use in your password, th
 
 ##### Notes
 
-Password managers are insecure and hardly unusable, just like passwords themself.
+Password managers are insecure and hardly usable, just like passwords themself.
 
 This solution isn't a proposition to change something and the idea is pretty old, but it can still be used for "special" purposes or just by paranoids/cypherpunks.
 
