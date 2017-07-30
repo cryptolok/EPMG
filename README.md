@@ -30,34 +30,23 @@ The solution allows to generate a service-specific password using only one singl
 
 1. ask for service/website/application/filename
 2. ask for login/id/username/email
-
-Because, there might be multiple accounts for one service.
+	* Because, there might be multiple accounts for one service.
 3. ask for master-password/key/passphrase
-
-This password should always be the same, but strong and unqiue, it allows multiple and deterministic generation.
+	* This password should always be the same, but strong and unqiue, it allows multiple and deterministic generation.
 4. ask how many times the generated password was compromised
-
-If the master-password was compromised, every generated password is.
-
-However, if one of the generated passwords was compromised, adding the compromission number as a salt will generate a totally different and independent password.
+	* If the master-password was compromised, every generated password is.
+	* However, if one of the generated passwords was compromised, adding the compromission number as a salt will generate a totally different and independent password.
 5. calculate PBKDF2-HMAC ( SHA-512, 1 000 000 iterations, service and login, password and compromises number )
-
-PBKDF is a strong cryptographic function, combined with a strong and difficult to compute hashing algorithm as SHA-512 for one million times will make it extremely hard to bruteforce for an adversary of any type.
-
-PBKDF is more secure than HMAC, which is more secure than a simple hash.
-
-As you can see, the password with compromission number is actually used as salt and the actual "password" comes from concatenation of service and login.
+	* PBKDF is a strong cryptographic function, combined with a strong and difficult to compute hashing algorithm as SHA-512 for one million times will make it extremely hard to bruteforce for an adversary of any type.
+	* PBKDF is more secure than HMAC, which is more secure than a simple hash.
+	* As you can see, the password with compromission number is actually used as salt and the actual "password" comes from concatenation of service and login.
 6. encode the result in Base64
-
-This will output ASCII characters
+	* This will output ASCII characters
 7. select first 16 characters
-
-Because, it's enough
+	* Because, it's enough
 8. add "/0" at the end
-
-This is preferable because, the propability of occurence for special characters and numbers is lower than letters, whereas it's necessary for the current password policy (regardless the fact that it has nothing to do with the password security).
+	* This is preferable because, the propability of occurence for special characters and numbers is lower than letters, whereas it's necessary for the current password policy (regardless the fact that it has nothing to do with the password security).
 9. copy to clipboard or show the generated password
-
 
 INPUT  : service, login, master-password
 
@@ -74,25 +63,15 @@ python EPMG.py || chmod +x EPMG.py && ./EPMG.py
 For Windows - [installer.msi](https://www.python.org/ftp/python/2.7.13/python-2.7.13.msi)
 
 For Android :
-
-Download [QPython](https://play.google.com/store/apps/details?id=org.qpython.qpy)
-
-Move EPMG.py to /storage/qpython/scripts/
-
-Launch QPython
-
-Click on "quick launch" central logo icon
-
-Select "Run local script"
-
-Select "EPMG.py"
-
-Tap press on screen and choose "Select text"
-
-Select the password using your finger, this will copy it to the clipboard
-
-Press "enter" to exit
-
+1. Download [QPython](https://play.google.com/store/apps/details?id=org.qpython.qpy)
+2. Move EPMG.py to /storage/qpython/scripts/
+3. Launch QPython
+4. Click on "quick launch" central logo icon
+5. Select "Run local script"
+6. Select "EPMG.py"
+7. Tap press on screen and choose "Select text"
+8. Select the password using your finger, this will copy it to the clipboard
+9. Press "enter" to exit
 For iOS - [iTunes](https://itunes.apple.com/us/app/python-for-ios/id485729872), which is paid, but you can find a free version "somewhere in a galaxy"
 
 Examples:
