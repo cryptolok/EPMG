@@ -117,9 +117,9 @@ Since we add 2 characters in the end, they woun't count for complexity.
 
 We are left with 16 "random" characters selected out of Base64, so 64 possibilities for each-one, which gives us:
 
-64^16 = 10^67 possibilities <=> log(64^16) in base of 2 = 96 random bits of entropy to guess theoretically, which is more than enough.
+64^16 = 10^28 possibilities <=> log(64^16) in base of 2 = 96 random bits of entropy to guess theoretically, which is more than enough.
 
-However, practically the total number of possibilities can be reduced to 10^3 * 26^13 * binom(13,7) = 10^57 <=> 82 bits, because of statistics.
+However, practically the total number of possibilities can be reduced to 10^3 * 26^13 * binom(13,7) = 10^24 <=> 82 bits, because of statistics.
 
 The probability of occurence in Base64 charset for:
 * decimals is 10/64 = 15%
