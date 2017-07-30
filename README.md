@@ -72,6 +72,7 @@ For Android :
 7. Tap press on screen and choose "Select text"
 8. Select the password using your finger, this will copy it to the clipboard
 9. Press "enter" to exit
+
 For iOS - [iTunes](https://itunes.apple.com/us/app/python-for-ios/id485729872), which is paid, but you can find a free version "somewhere in a galaxy"
 
 Examples:
