@@ -30,21 +30,31 @@ The solution allows to generate a service-specific password using only one singl
 
 1. ask for service/website/application/filename
 2. ask for login/id/username/email
+
 Because, there might be multiple accounts for one service.
 3. ask for master-password/key/passphrase
+
 This password should always be the same, but strong and unqiue, it allows multiple and deterministic generation.
 4. ask how many times the generated password was compromised
+
 If the master-password was compromised, every generated password is.
+
 However, if one of the generated passwords was compromised, adding the compromission number as a salt will generate a totally different and independent password.
 5. calculate PBKDF2-HMAC ( SHA-512, 1 000 000 iterations, service and login, password and compromises number )
+
 PBKDF is a strong cryptographic function, combined with a strong and difficult to compute hashing algorithm as SHA-512 for one million times will make it extremely hard to bruteforce for an adversary of any type.
+
 PBKDF is more secure than HMAC, which is more secure than a simple hash.
+
 As you can see, the password with compromission number is actually used as salt and the actual "password" comes from concatenation of service and login.
 6. encode the result in Base64
+
 This will output ASCII characters
 7. select first 16 characters
+
 Because, it's enough
 8. add "/0" at the end
+
 This is preferable because, the propability of occurence for special characters and numbers is lower than letters, whereas it's necessary for the current password policy (regardless the fact that it has nothing to do with the password security).
 9. copy to clipboard or show the generated password
 
@@ -64,14 +74,23 @@ python EPMG.py || chmod +x EPMG.py && ./EPMG.py
 For Windows - [installer.msi](https://www.python.org/ftp/python/2.7.13/python-2.7.13.msi)
 
 For Android :
+
 Download [QPython](https://play.google.com/store/apps/details?id=org.qpython.qpy)
+
 Move EPMG.py to /storage/qpython/scripts/
+
 Launch QPython
+
 Click on "quick launch" central logo icon
+
 Select "Run local script"
+
 Select "EPMG.py"
+
 Tap press on screen and choose "Select text"
+
 Select the password using your finger, this will copy it to the clipboard
+
 Press "enter" to exit
 
 For iOS - [iTunes](https://itunes.apple.com/us/app/python-for-ios/id485729872), which is paid, but you can find a free version "somewhere in a galaxy"
@@ -100,15 +119,15 @@ At the current date, password is the most common form of authentication, even if
 
 The code is written in Python 2.7 and even smaller than this README, which makes it executable on almost any device.
 
-[PBKDF](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf) itself if very difficult to bruteforce and practically impossible to make a dictionary/table. I maid it even more secure that your disk encryption and the password managers all together.
+[PBKDF](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf) itself is very difficult to bruteforce and practically impossible to make a dictionary/table. I maid it even more secure that your disk encryption and the password managers all together.
 
-Nothing is saved anywhere. The RAM (volatile memory) is exception ofcourse and even if Python has "garbadge collection" it has no C-type control over variables and it makes some copies of it anyway, thus making it almost impossible task to make sure that nothing remains in memory after execution. Nevertheless, compromised passwords can be changed and RAM leaking is pretty irrealistic problem for modern computers. Zero connection prevents network attacks and less dependencies.
+Nothing is saved anywhere. The RAM (volatile memory) is exception ofcourse and even if Python has "garbadge collection" it has no C-type control over variables and it makes some copies of them anyway, thus making it almost impossible task to be sure that nothing remains in memory after execution. Nevertheless, compromised passwords can be changed and RAM leaking is pretty irrealistic problem for modern computers. Zero connection prevents network attacks and has less dependencies.
 
 It can also be executed in a different environment (like friend's PC or virtual machine), which should be trusted however.
 
 In case if you're forced to decrypt your drive for instance, all your stored passwords will be compromised and if you've encrypted them, a key might be demanded. A deterministic schema allows deniability in such case by simply denying having a password for a service or by providing a fake-one.
 
-Despite the [criticism](https://tonyarcieri.com/4-fatal-flaws-in-deterministic-password-managers) of deterministic password managers, secuirty policies were somehow stabilised and you can strip/recode the "improper" characters (at the cost of user experience). Anyway, user will end up with some local storage files (certificates, PINs, ...).
+Despite the [criticism](https://tonyarcieri.com/4-fatal-flaws-in-deterministic-password-managers) of deterministic password managers, secuirty policies were somehow stabilized and you can strip/recode the "improper" characters (at the cost of user experience). Anyway, user will end up with some local storage files (certificates, PINs, ...).
 
 Finally, like all my software, it's free and has no "premium" discrimination.
 
@@ -116,11 +135,11 @@ Finally, like all my software, it's free and has no "premium" discrimination.
 
 Since we add 2 characters in the end, they woun't count for complexity.
 
-We are left with 16 "random" characters selected out of Base64, so 64 possibility for each-one, which gives us:
+We are left with 16 "random" characters selected out of Base64, so 64 possibilities for each-one, which gives us:
 
 64^12 = 10^67 possibilities <=> log(64^16) in base of 2 = 96 random bits of entropy to guess theoretically, which is more than enough.
 
-However, pratically the total number of possibilities can be reduced to 10^3 * 26^13 * binom(13,7) = 10^57 <=> 82 bits, because of statistics.
+However, practically the total number of possibilities can be reduced to 10^3 * 26^13 * binom(13,7) = 10^57 <=> 82 bits, because of statistics.
 
 The probability of occurence in Base64 charset for:
 * decimals is 10/64 = 15%
@@ -132,7 +151,7 @@ Taking in count that I took only 16 characters, only 3 of them will be decimals 
 
 This brings us to combinatorics, more specifically binomial coefficients and factorials.
 
-Assuming that there will be half of uppercase and half of lowercase characters, n is total characters number (13) and k in the ratio of inter-charset probability occurence (13/2 = 6), the total number of possibilities for them is:
+Assuming that there will be half of uppercase and half of lowercase characters, n is total characters number (13) and k in the ratio of inter-charset occurence probability (13/2 = 6), the total number of possibilities for them is:
 
 ![factorial notation](https://wikimedia.org/api/rest_v1/media/math/render/svg/3ddcd034186417e2cb2c00fbb8d14a05901de8a9)
 
