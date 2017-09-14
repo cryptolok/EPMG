@@ -14,7 +14,7 @@ Properties:
 * deniability
 
 Dependencies:
-* **Python 2.7** - main engine
+* **Python** - main engine, version 2 and 3 compatible
 
 Limitations:
 * no automatic clipboard copy for Android/iOS
@@ -59,12 +59,16 @@ For Unix :
 sudo apt install python || echo 'you know how to install a package, right?'
 python EPMG.py || chmod +x EPMG.py && ./EPMG.py
 ```
+If using Python 3 you will also need Tkinter library (which is included in Python 2):
+```bash
+sudo apt install python3-tk
+```
 
-For Windows - [installer.msi](https://www.python.org/ftp/python/2.7.13/python-2.7.13.msi)
+For Windows - [installer2.msi](https://www.python.org/ftp/python/2.7.13/python-2.7.13.msi) or [installer3.msi](https://www.python.org/ftp/python/3.4.2/python-3.4.2.msi)
 
 For Android :
-1. Download [QPython](https://play.google.com/store/apps/details?id=org.qpython.qpy)
-2. Move EPMG.py to /storage/qpython/scripts/
+1. Download [QPython2](https://play.google.com/store/apps/details?id=org.qpython.qpy) or [QPython3](https://play.google.com/store/apps/details?id=org.qpython.qpy3)
+2. Move EPMG.py to /storage/qpython/scripts/ or ../scripts3/
 3. Launch QPython
 4. Click on "quick launch" central logo icon
 5. Select "Run local script"
@@ -73,7 +77,7 @@ For Android :
 8. Select the password using your finger, this will copy it to the clipboard
 9. Press "enter" to exit
 
-For iOS - [iTunes](https://itunes.apple.com/us/app/python-for-ios/id485729872), which is paid, but you can find a free version "somewhere in a galaxy"
+For iOS - [iTunes2](https://itunes.apple.com/us/app/python-for-ios/id485729872) or [iTunes3](https://itunes.apple.com/us/app/python-3.2-for-ios/id519319292?mt=8&ign-mpt=uo%3D4), which is paid, but you can find a free version "somewhere in a galaxy"
 
 Examples:
 ```bash
@@ -97,7 +101,7 @@ OUT: UngPtVcR9IJ+gxX+/0
 
 At the current date, password is the most common form of authentication, even if some services support multiple authentication types, passwords are still remaining universal.
 
-The code is written in Python 2.7 and even smaller than this README, which makes it executable on almost any device.
+The code is written in Python (2 and 3 compatible) and even smaller than this README, which makes it executable on almost any device.
 
 [PBKDF](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf) itself is very difficult to bruteforce and practically impossible to make a dictionary/table. I maid it even more secure that your disk encryption and the password managers all together.
 
