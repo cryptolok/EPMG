@@ -1,10 +1,12 @@
-#!/usr/bin/env python2.7
+#!/usr/bin/env python
 
 try:
+# Python 2
 	from Tkinter import Tk as gui
 except:
-	pass
-#TODO Android and iOS copy to clipboard
+# Python 3
+	from tkinter import Tk as gui
+#TODO Android and iOS won't have copy to clipboard
 from hashlib import pbkdf2_hmac as pbkdf
 from base64 import b64encode
 from getpass import getpass
@@ -51,10 +53,18 @@ compromises=''
 show='SHOW'
 # needed for Android/iOS exception
 
-service=raw_input('ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : ')
+try:
+# P2
+	service=raw_input('ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : ')
+except:
+# P3
+	service=input('ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : ')
 print
 #TODO hardcode known password policies or/and permit choice
-login=raw_input('ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : ')
+try:
+	login=raw_input('ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : ')
+except:
+	login=input('ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : ')
 print
 password=getpass('ENTER MASTER-PASSWORD/KEY/PASSPHRASE : ')
 # no prompt for master-password of course
@@ -62,27 +72,40 @@ print
 if not password:
 	print('!!! PASSWORD CAN BUT NOT SUPPOSE TO BE BLANK !!!')
 	print
-compromises=raw_input('HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : ')
+try:
+	compromises=raw_input('HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : ')
+except:
+	compromises=input('HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : ')
 print
 if compromises:
 	compromises=str(int(compromises))
 
 print('SECURE GENERATION...')
 print
-hash=pbkdf('sha512', service+login, password+compromises, iterations)
-#TODO python 3 str2bin (hate crypto in python 3 ...)
-encoded=b64encode(hash)
+try:
+# P2
+	hash=pbkdf('sha512', service+login, password+compromises, iterations)
+	encoded=b64encode(hash)
+except:
+# P3
+	hash=pbkdf('sha512', (service+login).encode("ascii"), (password+compromises).encode("ascii"), iterations)
+	encoded=str(b64encode(hash))[2:]
 password=encoded[:16]+'/0'
 
 try:
+# PC will propose to show or to copy the password
 	buffer = gui()
 	buffer.withdraw()
 	buffer.clipboard_clear()
 	buffer.clipboard_append(password)
 	buffer.update()
-	show=raw_input('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE : ')
+	try:
+		show=raw_input('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE : ')
+	except:
+		show=input('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE : ')
 	print
 except:
+# mobiles will only prompt the password
 	pass
 if show == 'SHOW':
 	print('PASSWORD : '+password)
@@ -98,4 +121,3 @@ except:
 
 print('CLEANED (some traces may still be in memory)')
 print
-
