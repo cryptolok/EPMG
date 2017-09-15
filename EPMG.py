@@ -11,6 +11,11 @@ from hashlib import pbkdf2_hmac as pbkdf
 from base64 import b64encode
 from getpass import getpass
 
+# since, input functions varie in Python 2 and 3, we have to find the good-one
+try:
+	input=raw_input
+except NameError: pass
+
 print ('')
 print ('                         _dP"9b_')
 print ('                       _dP"   "9b_')
@@ -53,18 +58,10 @@ compromises=''
 show='SHOW'
 # needed for Android/iOS exception
 
-try:
-# P2
-	service=raw_input('ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : ')
-except:
-# P3
-	service=input('ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : ')
+service=input('ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : ')
 print
 #TODO hardcode known password policies or/and permit choice
-try:
-	login=raw_input('ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : ')
-except:
-	login=input('ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : ')
+login=input('ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : ')
 print
 password=getpass('ENTER MASTER-PASSWORD/KEY/PASSPHRASE : ')
 # no prompt for master-password of course
@@ -72,10 +69,7 @@ print
 if not password:
 	print('!!! PASSWORD CAN BUT NOT SUPPOSE TO BE BLANK !!!')
 	print
-try:
-	compromises=raw_input('HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : ')
-except:
-	compromises=input('HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : ')
+compromises=input('HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : ')
 print
 if compromises:
 	compromises=str(int(compromises))
@@ -99,10 +93,7 @@ try:
 	buffer.clipboard_clear()
 	buffer.clipboard_append(password)
 	buffer.update()
-	try:
-		show=raw_input('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE : ')
-	except:
-		show=input('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE : ')
+	show=input('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE : ')
 	print
 except:
 # mobiles will only prompt the password
