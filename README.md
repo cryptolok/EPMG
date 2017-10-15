@@ -2,7 +2,7 @@
 
 Entropic Password Manager Generator
 
-[](https://pbs.twimg.com/media/DGAT61MXsAAeaDo.jpg)
+![](https://pbs.twimg.com/media/DGAT61MXsAAeaDo.jpg)
 
 EPMG is a cross-platform, most secure and storageless password manager that generates passwords
 
