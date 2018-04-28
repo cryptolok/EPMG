@@ -134,10 +134,14 @@
 		  alert("PASSWORD : " + password);
 		}
 		
+		document.getElementsByName("service")[0].value="000000000000000000";
 		service="000000000000000000";
-                login="000000000000000000";
-                password="000000000000000000";
-                compromises="000000000000000000";
+		document.getElementsByName("login")[0].value="000000000000000000";
+		login="000000000000000000";
+		document.getElementsByName("password")[0].value="000000000000000000";
+		password="000000000000000000";
+		document.getElementsByName("compromises")[0].value="000000000000000000";
+		compromises="000000000000000000";";
 		alert('CLEANED (some traces may still be in memory)');
 		return false;
 // this prevents the form submission
