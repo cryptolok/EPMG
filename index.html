@@ -72,7 +72,7 @@
 	<div id="page">
 		<img src="https://camo.githubusercontent.com/21338e055783dc9d57bf4f1d77e88e475b74c344/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4447415436314d587341416561446f2e6a7067" alt="EPMG">
 		<form name="data" autocomplete="off" onsubmit="return generate()" novalidate>
-<!-- the form is totally anonymous and don't leave the browser, I used GET (default) methond because of github 405 status reaction to POST -->
+<!-- the form is totally anonymous and don't leave the browser due to the page reload -->
 			ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : <input type="text" name="service" placeholder="socialNetwork" value="">
 			<p>
 				ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : <input type="text" name="login" placeholder="secured@mail.net" value="">
@@ -135,6 +135,8 @@
 		}
 		
 		alert('CLEANED (some traces may still be in memory)');
+		location.reload();
+// forces not to send the request
 		}
 	</script>
 </body>
