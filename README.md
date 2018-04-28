@@ -19,7 +19,7 @@ Properties:
 
 Dependencies:
 * **Python** - main offline engine, version 2 and 3 compatible
-* **JavaScript** - main online engine, Firefox or Chrome/Edge (limited clipboard) required, IE isn't compatible
+* **JavaScript** - main online engine, Firefox or Chrome/Edge (limited loader/clipboard) required, IE isn't compatible
 
 Limitations:
 * no automatic clipboard copy for Android/iOS
