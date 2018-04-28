@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="-1">
+<!-- this is an attempt to prevent form memorizing by browser -->
+	<title>
+		EPMG - Entropic Password Manager Generator
+	</title>
+	<style>
+		html{ 
+		background-color: #141414;
+		text-align: center;
+		}
+		input[id=buffer]{
+		width:1px;
+		height:1px;
+		background-color: #141414;
+		color: #141414;
+		opacity: 0.1;
+		}
+		form{
+		color: #ffffff;
+		}
+		#loader {
+		visibility: hidden;
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		z-index: 1;
+		width: 150px;
+		height: 150px;
+		margin: -75px 0 0 -75px;
+		border: 16px solid white;
+		border-radius: 50%;
+		border-top: 16px solid white;
+		border-right: 16px solid #141414;
+		border-bottom: 16px solid white;
+		border-left: 16px solid #141414;
+		width: 120px;
+		height: 120px;
+		-webkit-animation: spin 0.5s linear infinite;
+		animation: spin 0.5s linear infinite;
+		}
+		@-webkit-keyframes spin {
+		0% { -webkit-transform: rotate(0deg); }
+		100% { -webkit-transform: rotate(360deg); }
+		}
+		@keyframes spin {
+		0% { transform: rotate(0deg); }
+		100% { transform: rotate(360deg); }
+		}
+		.animate-bottom {
+		position: relative;
+		-webkit-animation-name: animatebottom;
+		-webkit-animation-duration: 1s;
+		animation-name: animatebottom;
+		animation-duration: 1s
+		}
+		@-webkit-keyframes animatebottom {
+		from { bottom:-100px; opacity:0 } 
+		to { bottom:0px; opacity:1 }
+		}
+		@keyframes animatebottom { 
+		from{ bottom:-100px; opacity:0 } 
+		to{ bottom:0; opacity:1 }
+		}
+	</style>
+</head>
+<body>
+	<div id="loader"></div>
+	<div id="page">
+		<img src="https://camo.githubusercontent.com/21338e055783dc9d57bf4f1d77e88e475b74c344/68747470733a2f2f7062732e7477696d672e636f6d2f6d656469612f4447415436314d587341416561446f2e6a7067" alt="EPMG">
+		<form name="data" method="post" autocomplete="off" onsubmit="return generate()" novalidate>
+<!-- the form is totally anonymous and don't leave the browser -->
+			ENTER SERVICE/WEBSITE/APPLICATION/FILENAME (can be blank) : <input type="text" name="service" placeholder="socialNetwork" value="">
+			<p>
+				ENTER LOGIN/ID/USERNAME/EMAIL (may be blank) : <input type="text" name="login" placeholder="secured@mail.net" value="">
+			<p>
+				ENTER MASTER-PASSWORD/KEY/PASSPHRASE : <input type="password" name="password" placeholder="MyStrong&UNIQUEp4$$w0rd" value="">
+			<p>
+				HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : <input type="number" name="compromises" value="">
+			<p>
+				<input type="submit" value="GENERATE">
+		</form>
+		<input type="hidden" value="000000000000000000" id="buffer">
+<!-- this buffer is needed fot the clipboard, but if a timing attack occurs, it is better to hide it in order not to reveal the password -->
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/asmCrypto/0.22.0/asmcrypto.all.js" integrity="sha512-PIIic69Vf2RdD5oSmkYEEZrnIuMxf9sXzr7CzjsNEs2X9R+23CCYJzTqcIOBA72xUzXBYlpOvGN9BlZtEGyGiQ==" crossorigin="anonymous"></script>
+<!-- the crypto library is verified and in case of an error it is not revealed to the server -->
+	<script>
+		function generate(){
+		var pbkdf2 = asmCrypto.PBKDF2_HMAC_SHA512;
+		var iterations = 1E6;
+		
+		var service = document.forms["data"]["service"].value;
+		var login = document.forms["data"]["login"].value;
+		var password = document.forms["data"]["password"].value;
+		var compromises = document.forms["data"]["compromises"].value;
+		
+		if (password == null || password == '') {
+		  alert('!!! PASSWORD CAN BUT NOT SUPPOSE TO BE BLANK !!!');
+		}
+
+//		document.getElementById("loader").style.display = "block";
+//		document.getElementById("page").style.display = "none";
+		document.getElementById("loader").style.visibility = "visible";
+		document.getElementById("page").style.visibility = "hidden";
+		alert('GENERATION TIME FOR SOME DEVICES CAN TAKE DOZENS OF SECONDS, PLEASE WAIT');
+// I had to include the alert() function in order to force the update of style and webkit loader, I tried async and other stuff, but this is the only solution I found reliable, plus it not always works with Chrome/IE
+		var hash = pbkdf2.base64(service + login, password + compromises, iterations);
+		password = hash.substr(0,16) + '/0';
+		document.getElementById("loader").style.visibility = "hidden";
+		document.getElementById("page").style.visibility = "visible";
+		
+		if (document.execCommand) {
+		  var clipboard = document.getElementById("buffer");
+		  clipboard.value=password;
+		  clipboard.setAttribute("type", "text");
+		  clipboard.select();
+		  document.execCommand("Copy");
+		  clipboard.setAttribute("type", "hidden");
+		  var show=prompt('PASSWORD COPIED TO CLIPBOARD (Ctrl+V to paste it into field form), ENTER TO CLEAN OR "SHOW" TO SEE');
+			if (show == "SHOW") {
+				alert("PASSWORD :" + password);
+			}
+		  clipboard.value="000000000000000000";
+		  clipboard.setAttribute("type", "text");
+		  clipboard.select();
+		  document.execCommand("Copy");
+		  clipboard.setAttribute("type", "hidden");
+// I prefere to erase and rewrite the clipboard just in case, the hidden type has to be reforced in order to use clipboard and hide the result
+		} else {
+		  alert("PASSWORD : " + password);
+		}
+		
+		alert('CLEANED (some traces may still be in memory)');
+		}
+	</script>
+</body>
+</html>
