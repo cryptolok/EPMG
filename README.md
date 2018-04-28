@@ -6,6 +6,8 @@ Entropic Password Manager Generator
 
 EPMG is a cross-platform, most secure and storageless password manager that generates passwords
 
+The main code is for the offline version, but you can also use it [online](https://cryptolok.github.io/EPMG) safely.
+
 Properties:
 * security
 * portability
@@ -16,7 +18,8 @@ Properties:
 * deniability
 
 Dependencies:
-* **Python** - main engine, version 2 and 3 compatible
+* **Python** - main offline engine, version 2 and 3 compatible
+* **JavaScript** - main online engine, Firefox or Chrome/Edge (limited clipboard) required, IE isn't compatible
 
 Limitations:
 * no automatic clipboard copy for Android/iOS
@@ -55,6 +58,8 @@ INPUT  : service, login, master-password
 OUTPUT : pseudo-randomly generated 18 ASCII characters
 
 ### HowTo
+
+First of all, it's available [online](https://cryptolok.github.io/EPMG), but you can also install it locally.
 
 For Unix :
 ```bash
@@ -104,6 +109,8 @@ OUT: UngPtVcR9IJ+gxX+/0
 At the current date, password is the most common form of authentication, even if some services support multiple authentication types, passwords are still remaining universal.
 
 The code is written in Python (2 and 3 compatible) and even smaller than this README, which makes it executable on almost any device.
+
+The online version is HTML/JavaScript, even if it uses an external library and an image, the execution is stricly limited to the browser and no data will leave it.
 
 [PBKDF](http://nvlpubs.nist.gov/nistpubs/Legacy/SP/nistspecialpublication800-132.pdf) itself is very difficult to bruteforce and practically impossible to make a dictionary/table. I maid it even more secure that your disk encryption and the password managers all together.
 
