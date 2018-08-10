@@ -81,7 +81,7 @@
 			<p>
 				HOW MANY TIMES WAS THE GENERATED PASSWORD COMPROMISED (blank for none) : <input type="number" name="compromises" value="">
 			<p>
-				<input type="submit" value="GENERATE">
+				<input type="submit" value="GENERATE" <input type="submit" value="GENERATE">
 		</form>
 		<input type="hidden" value="000000000000000000" id="buffer">
 <!-- this buffer is needed fot the clipboard, but if a timing attack occurs, it is better to hide it in order not to reveal the password -->
@@ -89,6 +89,14 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/asmCrypto/0.22.0/asmcrypto.all.js" integrity="sha512-PIIic69Vf2RdD5oSmkYEEZrnIuMxf9sXzr7CzjsNEs2X9R+23CCYJzTqcIOBA72xUzXBYlpOvGN9BlZtEGyGiQ==" crossorigin="anonymous"></script>
 <!-- the crypto library is verified and in case of an error it is not revealed to the server -->
 	<script>
+		function sleep(s){
+                    var start = new Date().getTime();
+                    for (var i = 0; i < 1e7; i++) {
+                        if ((new Date().getTime() - start) > s*1000){
+                                break;
+                        }
+                    }
+                }
 		function generate(){
 		var pbkdf2 = asmCrypto.PBKDF2_HMAC_SHA512;
 		var iterations = 1E6;
@@ -108,6 +116,7 @@
 		document.getElementById("page").style.visibility = "hidden";
 		alert('GENERATION TIME FOR SOME DEVICES CAN TAKE DOZENS OF SECONDS, PLEASE WAIT');
 // I had to include the alert() function in order to force the update of style and webkit loader, I tried async and other stuff, but this is the only solution I found reliable, plus it not always works with Chrome/IE
+// TODO make a universal loader
 		var hash = pbkdf2.base64(service + login, password + compromises, iterations);
 		password = hash.substr(0,16) + '/0';
 		document.getElementById("loader").style.visibility = "hidden";
@@ -124,6 +133,10 @@
 			if (show == "SHOW") {
 				alert("PASSWORD :" + password);
 			}
+		  if ( !!window.chrome && !!window.chrome.webstore ) {
+			  sleep(10);
+		  }
+// wait 10 seconds before deletion since Chrome will pass prompt/alert if the user goes to another tab/window, thanks Google...
 		  clipboard.value="000000000000000000";
 		  clipboard.setAttribute("type", "text");
 		  clipboard.select();
