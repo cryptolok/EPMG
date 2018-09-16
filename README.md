@@ -26,7 +26,7 @@ Limitations:
 * no proper RAM cleaning
 * may take several seconds to compute on some devices
 * static password policy
-* impossibility to store unpredictable constants
+* impossibility to generate unpredictable constants
 * master-password compromise is fatal
 
 ## How it works
@@ -60,6 +60,8 @@ OUTPUT : pseudo-randomly generated 18 ASCII characters
 ### HowTo
 
 First of all, it's available [online](https://cryptolok.github.io/EPMG), but you can also install it locally.
+
+You also may use it to generate a password that encrypts a file which contains some static credentials (like PIN codes or OTP).
 
 For Unix :
 ```bash
@@ -102,6 +104,14 @@ IN (no prompt) : MyStrong&UNIQUEp4$$w0rd
 IN : 1
 IN : SHOW
 OUT: UngPtVcR9IJ+gxX+/0
+
+./EPMG.py
+IN : /home/user/passwords/bankPin
+IN : "enter"
+IN (no prompt) : MyStrong&UNIQUEp4$$w0rd
+IN : "enter"
+OUT (clipboard) : Ocn8lcSwcDckIcSK/0
+Use the generated password to decrypt /home/user/passwords/bankPin
 ```
 
 #### Analysis
@@ -118,9 +128,11 @@ Nothing is saved anywhere. The RAM (volatile memory) is exception ofcourse and e
 
 It can also be executed in a different environment (like friend's PC or virtual machine), which should be trusted however.
 
+Application name and login may be stored in an unecrypted form and even exposed, but such situation should be avoided.
+
 In case if you're forced to decrypt your drive for instance, all your stored passwords will be compromised and if you've encrypted them, a key might be demanded. A deterministic schema allows deniability in such case by simply denying having a password for a service or by providing a fake-one.
 
-Despite the [criticism](https://tonyarcieri.com/4-fatal-flaws-in-deterministic-password-managers) of deterministic password managers, secuirty policies were somehow stabilized and you can strip/recode the "improper" characters (at the cost of user experience). Anyway, user will end up with some local storage files (certificates, PINs, ...).
+Despite the [criticism](https://tonyarcieri.com/4-fatal-flaws-in-deterministic-password-managers) of deterministic password managers, secuirty policies were somehow stabilized and you can strip/recode the "improper" characters (at the cost of user experience). Anyway, user will end up with some local storage files (certificates, PINs, ...) which, nonetheless, can also be encrypted using generated passwords.
 
 Finally, like all my software, it's free and has no "premium" discrimination.
 
