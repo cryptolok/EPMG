@@ -138,7 +138,7 @@ Finally, like all my software, it's free and has no "premium" discrimination.
 
 #### Mathematics
 
-Since we add 2 characters in the end, they woun't count for complexity.
+Since we add 2 characters in the end, they won't count for complexity.
 
 We are left with 16 "random" characters selected out of Base64, so 64 possibilities for each-one, which gives us:
 
