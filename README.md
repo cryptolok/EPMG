@@ -168,6 +168,8 @@ which equals 1716
 
 An interesting conclusion is that the more charsets you use in your password, the less secure it is...
 
+Another side note, is that even if your password is very weak (just 'a' or 'b') and the attacker knows it, if the number of PBKDF iterations is obnoxiously huge (like one day of cracking using A100), the attacker might never find your password despite its weakness...
+
 ##### Notes
 
 Password managers are insecure and hardly usable, just like passwords themself.
